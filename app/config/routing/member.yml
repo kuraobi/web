@@ -39,6 +39,13 @@ member_techletter_subscribe:
   defaults: {_controller: AppBundle:MemberShip:techletterSubscribe}
   methods: ["POST"]
 
+company_invitation_accept:
+  path: /accepter/invitation/{invitationId}-{token}
+  defaults: {_controller: AppBundle\Controller\Membership\CompanyInvitationAcceptAction}
+  requirements:
+    invitationId: '\d+'
+    token: '.+'
+
 admin_company:
   path: /company
   defaults: {_controller: AppBundle\Controller\Admin\Membership\CompanyAction}

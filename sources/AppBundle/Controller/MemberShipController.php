@@ -147,61 +147,6 @@ class MemberShipController extends SiteBaseController
         return $response;
     }
 
-    public function memberInvitationAction(Request $request, $invitationId, $token)
-    {
-        /**
-         * @var $invitationRepository CompanyMemberInvitationRepository
-         */
-        $invitationRepository = $this->get('ting')->get(CompanyMemberInvitationRepository::class);
-
-        /**
-         * @var $invitation CompanyMemberInvitation
-         */
-        $invitation = $invitationRepository->getOneBy(['id' => $invitationId, 'token' => $token, 'status' => CompanyMemberInvitation::STATUS_PENDING]);
-        $company = null;
-        if ($invitation) {
-            /**
-             * @var $company CompanyMember
-             */
-            $company = $this->get('ting')->get(CompanyMemberRepository::class)->get($invitation->getCompanyId());
-        }
-
-        if ($invitation === null || $company === null) {
-            throw $this->createNotFoundException(sprintf('Could not find invitation with token "%s"', $token));
-        }
-
-        $userForm = $this->createForm(UserType::class);
-
-        $userForm->handleRequest($request);
-        if ($userForm->isSubmitted() && $userForm->isValid()) {
-            /**
-             * @var $user User
-             */
-            $user = $userForm->getData();
-            $user
-                ->setStatus(User::STATUS_ACTIVE)
-                ->setCompanyId($company->getId())
-            ;
-
-            if ($invitation->getManager()) {
-                $user->setRoles(['ROLE_COMPANY_MANAGER', 'ROLE_USER']);
-            }
-
-            $invitation->setStatus(CompanyMemberInvitation::STATUS_ACCEPTED);
-
-            $this->get('ting')->get(UserRepository::class)->save($user);
-            $invitationRepository->save($invitation);
-            $this->addFlash('success', 'Votre compte a été créé !');
-
-            $event = new NewMemberEvent($user);
-            $this->get('event_dispatcher')->dispatch($event::NAME, $event);
-
-            return $this->redirectToRoute('member_index');
-        }
-
-        return $this->render(':site/company_membership:member_invitation.html.twig', ['company' => $company, 'form' => $userForm->createView()]);
-    }
-
     public function slackInviteRequestAction(Request $request)
     {
         $user = $this->getUser();
