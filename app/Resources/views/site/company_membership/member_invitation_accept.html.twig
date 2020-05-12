@@ -1,0 +1,17 @@
+{% extends 'site/base.html.twig' %}
+
+{% block inner_content %}
+    <article id="company-membership-invitation">
+        <h1>Associer mon compte AFUP</h1>
+        <p>
+            Votre entreprise {{ company.companyName }} est devenue membre de l’AFUP.
+            Elle vous invite à profiter des avantages liés à cette adhésion.
+            Pour cela, associez votre compte personnel affilié au compte de votre entreprise.
+        </p>
+        <a href="{{ path('company_invitation_accept', {invitationId: id, token: token, accept: true}) }}"
+            class="company-invitation-accept">
+            <button class="button" type="button">Associer mon compte</button>
+        </a>
+        <p>Si vous rencontrez le moindre problème, n'hésitez pas à contacter l'AFUP par email: bonjour (at) afup.org.</p>
+    </article>
+{% endblock %}

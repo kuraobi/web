@@ -10,6 +10,9 @@ use CCMBenchmark\Ting\Repository\MetadataInitializer;
 use CCMBenchmark\Ting\Repository\Repository;
 use CCMBenchmark\Ting\Serializer\SerializerFactoryInterface;
 
+/**
+ * @method CompanyMember|null get($primariesKeyValue, $forceMaster = false)
+ */
 class CompanyMemberRepository extends Repository implements MetadataInitializer
 {
     public function findDisplayableCompanies()

@@ -26,7 +26,7 @@ company_membership_invoice:
 
 company_invitation:
   path: /adherer/invitation/{invitationId}-{token}
-  defaults: {_controller: AppBundle:MemberShip:memberInvitation}
+  defaults: {_controller: AppBundle\Controller\Membership\CompanyInvitationAction}
   requirements:
     invitationId: '\d+'
     token: '.+'

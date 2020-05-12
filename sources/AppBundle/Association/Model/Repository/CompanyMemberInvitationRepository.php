@@ -12,6 +12,10 @@ use CCMBenchmark\Ting\Repository\MetadataInitializer;
 use CCMBenchmark\Ting\Repository\Repository;
 use CCMBenchmark\Ting\Serializer\SerializerFactoryInterface;
 
+/**
+ * @method CompanyMemberInvitation|null get($primariesKeyValue, $forceMaster = false)
+ * @method CompanyMemberInvitation|null getOneBy(array $criteria, $forceMaster = false)
+ */
 class CompanyMemberInvitationRepository extends Repository implements MetadataInitializer
 {
     /**
